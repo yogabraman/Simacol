@@ -1,4 +1,4 @@
-package com.smart.simacol;
+package com.smart.simacol.Fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.smart.simacol.R;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 

@@ -1,4 +1,4 @@
-package com.smart.simacol;
+package com.smart.simacol.Ruang1;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.smart.simacol.R;
 
 public class Ruang1Activity extends AppCompatActivity implements View.OnClickListener {
     Button booking, listBooking;

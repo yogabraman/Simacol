@@ -12,8 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListBooking2Activity"></activity>
-        <activity android:name=".ListBooking1Activity" />
+        <activity android:name=".Ruang2.ListBooking2Activity"></activity>
+        <activity android:name=".Ruang1.ListBooking1Activity" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -24,12 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Booking2Activity" />
-        <activity android:name=".DetailBookingActivity" />
+        <activity android:name=".Ruang2.Booking2Activity" />
         <activity android:name=".InfoBookingActivity" />
-        <activity android:name=".Booking1Activity" />
-        <activity android:name=".Ruang2Activity" />
-        <activity android:name=".Ruang1Activity" />
+        <activity android:name=".Ruang1.Booking1Activity" />
+        <activity android:name=".Ruang2.Ruang2Activity" />
+        <activity android:name=".Ruang1.Ruang1Activity" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
@@ -37,7 +36,6 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

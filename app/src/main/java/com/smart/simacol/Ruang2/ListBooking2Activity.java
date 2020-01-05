@@ -1,4 +1,4 @@
-package com.smart.simacol;
+package com.smart.simacol.Ruang2;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.smart.simacol.Adapters.BookingAllAdapter;
+import com.smart.simacol.R;
 import com.smart.simacol.models.BookingAll;
 
 public class ListBooking2Activity extends AppCompatActivity {

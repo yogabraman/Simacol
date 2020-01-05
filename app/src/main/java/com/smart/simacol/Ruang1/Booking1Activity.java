@@ -1,4 +1,4 @@
-package com.smart.simacol;
+package com.smart.simacol.Ruang1;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.smart.simacol.R;
 import com.smart.simacol.models.Booking;
 import com.smart.simacol.models.BookingAll;
 
@@ -38,10 +40,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Booking2Activity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "Booking2Activity";
-    Button book;
-    long cekin_ku, cekout_ku, cekin_mu, cekout_mu;
+public class Booking1Activity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "Booking1Activity";
+    Button book, cek;
+    long cekin_ku, cekout_ku, cekin_mu, cekout_mu, Millis0, Millis1, Millis2;
     String subjek, password, date, start, end, ruang, userid, status, username, uid, key, name;
     String tanggal_mu, start_mu, end_mu;
     String status_mu="0";
@@ -51,20 +53,22 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
     private Calendar calendar;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
-    DatabaseReference dbRef, userBookingRef, bookingRef, room2Ref;
+    DatabaseReference dbRef, userBookingRef, bookingRef, room1Ref;
     GoogleSignInClient mGoogleSignInClient;
+    Vibrator vibrator;
     int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking2);
+        setContentView(R.layout.activity_booking1);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         dbRef = FirebaseDatabase.getInstance().getReference();
         userBookingRef = dbRef.child("USER-BOOKING");
         bookingRef = dbRef.child("BOOKING");
-        room2Ref = bookingRef.child("room2");
+        room1Ref = bookingRef.child("room1");
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -82,7 +86,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        Booking2Activity.this,
+                        Booking1Activity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year,month,day);
@@ -111,7 +115,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
                 int minute = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog dialog = new TimePickerDialog(
-                        Booking2Activity.this,
+                        Booking1Activity.this,
                         android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                         mTimeSetListener1,
                         hour, minute,true
@@ -135,11 +139,11 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
-                int hour = calendar.get(Calendar.MILLISECOND);
+                int hour = calendar.get(Calendar.HOUR);
                 int minute = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog dialog = new TimePickerDialog(
-                        Booking2Activity.this,
+                        Booking1Activity.this,
                         android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                         mTimeSetListener2,
                         hour, minute,true
@@ -162,6 +166,10 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
 
         book = findViewById(R.id.btn_book);
         book.setOnClickListener(this);
+
+        cek = findViewById(R.id.btn_cek);
+        cek.setVisibility(View.GONE);
+        cek.setOnClickListener(this);
     }
 
     @Override
@@ -183,7 +191,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
         end = edt_end.getText().toString();
         subjek = edt_subjek.getText().toString();
         password = edt_password.getText().toString();
-        ruang = "Ruang Meeting 2";
+        ruang = "Ruang Meeting 1";
         status = "0";
         userid = uid;
         name = username;
@@ -215,16 +223,52 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
                     Toast.makeText(getApplicationContext(), "Maaf Sudah Ada Yang Booking", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.btn_cek:
+                room1Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()){
+                            final String childName = areaSnapshot.getKey();
+                            tanggal_mu = dataSnapshot.child(childName).child("tanggal").getValue(String.class);
+                            start_mu = dataSnapshot.child(childName).child("start").getValue(String.class);
+                            end_mu = dataSnapshot.child(childName).child("end").getValue(String.class);
+                            status_mu =  dataSnapshot.child(childName).child("status").getValue(String.class);
+
+                            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                            String oldTime = "12:45";
+//                            Date Date0 = null;
+                            Date Date1 = null;
+                            Date Date2 = null;
+                            try {
+//                                Date0 = formatter.parse(date+" "+start);
+                                Date1 = formatter.parse(tanggal_mu+" "+start_mu);
+                                Date2 = formatter.parse(tanggal_mu+" "+end_mu);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+//                            Millis0 = Date0.getTime();
+                            Millis1 = Date1.getTime();
+                            Millis2 = Date2.getTime();
+                            edt_subjek.setText(""+Date1);
+                            edt_password.setText(""+Date2);
+                            if (Millis2 > Millis1 && status_mu.equals("0")){
+                                Toast.makeText(getApplicationContext(), "Berhasil", Toast.LENGTH_SHORT).show();
+                            }if (Millis2 > Millis1 && status_mu.equals("1")){
+                                Toast.makeText(getApplicationContext(), "Gagal", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+                vibrator.vibrate(1000);
+                break;
         }
     }
 
     private boolean validateForm() {
         boolean result = true;
-        date = edt_date.getText().toString();
-        start = edt_start.getText().toString();
-        end = edt_end.getText().toString();
-        subjek = edt_subjek.getText().toString();
-        password = edt_password.getText().toString();
         if (date.isEmpty()) {
             edt_date.setError("Tanggal belum diisi");
             result = false;
@@ -249,7 +293,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
     }
 
     private String validateTime() {
-        room2Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        room1Ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()){
@@ -284,7 +328,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
         });
         if (cekin_ku >= cekin_mu && cekin_ku <= cekout_mu && status_mu != null && status_mu.equalsIgnoreCase("0")||
                 cekout_ku >= cekin_mu && cekout_ku <= cekout_mu && status_mu != null && status_mu.equalsIgnoreCase("0") ||
-                cekin_ku <= cekin_mu && cekout_ku >= cekout_mu && status_mu != null && status_mu.equalsIgnoreCase("0")) {
+                        cekin_ku <= cekin_mu && cekout_ku >= cekout_mu && status_mu != null && status_mu.equalsIgnoreCase("0")) {
             String result = "failed";
             return result;
         }else {
@@ -295,7 +339,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
 
     private void SetBookAll(String key,String date, String start, String end, String subjek, String ruang, String status, String name) {
         BookingAll bookingAll = new BookingAll(date, start, end, subjek, ruang, status, name);
-        bookingRef.child("room2").child(key).setValue(bookingAll)
+        bookingRef.child("room1").child(key).setValue(bookingAll)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -310,12 +354,12 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
 
     private void setBookUser(String key, String date, String start, String end, String subjek, String password, String ruang, String status, String userid) {
         Booking booking = new Booking(key, date, start, end, subjek, password, ruang, status, userid);
-        userBookingRef.child(uid).child("room2").child(key).setValue(booking)
+        userBookingRef.child(uid).child("room1").child(key).setValue(booking)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        Toast.makeText(Booking2Activity.this, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Booking1Activity.this, "Success", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         finish();
                     }
@@ -323,7 +367,7 @@ public class Booking2Activity extends AppCompatActivity implements View.OnClickL
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Booking2Activity.this, "Failed, " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Booking1Activity.this, "Failed, " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

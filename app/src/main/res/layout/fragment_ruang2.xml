@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Ruang2Fragment">
+    tools:context=".Ruang2.Ruang2Fragment">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_booking"
         android:layout_width="match_parent"

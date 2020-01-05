@@ -13,6 +13,8 @@ import android.widget.Button;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.smart.simacol.Ruang1.Ruang1Fragment;
+import com.smart.simacol.Ruang2.Ruang2Fragment;
 
 public class InfoBookingActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;

@@ -1,4 +1,4 @@
-package com.smart.simacol;
+package com.smart.simacol.Ruang1;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -14,33 +15,29 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.smart.simacol.Adapters.BookingAdapter2;
+import com.smart.simacol.Adapters.BookingAdapter1;
+import com.smart.simacol.R;
 import com.smart.simacol.models.Booking;
 
 
-public class Ruang2Fragment extends Fragment {
-    BookingAdapter2 bookingAdapter2;
+public class Ruang1Fragment extends Fragment {
+    BookingAdapter1 bookingAdapter1;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
     String uid;
-    DatabaseReference dbRef;
+    Button KekerJANCUK;
     GoogleSignInClient mGoogleSignInClient;
-    FirebaseRecyclerOptions<Booking> options;
-    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_ruang2, container, false);
-
+        View v = inflater.inflate(R.layout.fragment_ruang1, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         uid = user.getUid();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("USER-BOOKING").child(uid).child("room2");
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -53,16 +50,16 @@ public class Ruang2Fragment extends Fragment {
                 .getReference()
                 .child("USER-BOOKING")
                 .child(uid)
-                .child("room2");
-        options = new FirebaseRecyclerOptions.Builder<Booking>()
+                .child("room1");
+        FirebaseRecyclerOptions<Booking> options = new FirebaseRecyclerOptions.Builder<Booking>()
                 .setQuery(query, Booking.class)
                 .setLifecycleOwner(this)
                 .build();
 
-        bookingAdapter2 = new BookingAdapter2(options);
-        recyclerView = v.findViewById(R.id.recycle_booking);
+        bookingAdapter1 = new BookingAdapter1(options);
+        RecyclerView recyclerView = v.findViewById(R.id.recycle_booking);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(bookingAdapter2);
+        recyclerView.setAdapter(bookingAdapter1);
 
         return v;
     }
@@ -70,12 +67,12 @@ public class Ruang2Fragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        bookingAdapter2.startListening();
+        bookingAdapter1.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        bookingAdapter2.stopListening();
+        bookingAdapter1.stopListening();
     }
 }

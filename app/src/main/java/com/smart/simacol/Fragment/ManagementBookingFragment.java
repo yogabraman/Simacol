@@ -1,4 +1,4 @@
-package com.smart.simacol;
+package com.smart.simacol.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
