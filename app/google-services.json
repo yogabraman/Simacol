@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "466060306755",
+    "firebase_url": "https://smart-building-a2ef6.firebaseio.com",
+    "project_id": "smart-building-a2ef6",
+    "storage_bucket": "smart-building-a2ef6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466060306755:android:e46fbe7b2396d9e3",
+        "android_client_info": {
+          "package_name": "com.smart.simacol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466060306755-1hsfa9ao6l6u80fsmpj30t06tua94l4d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.smart.simacol",
+            "certificate_hash": "a362e42367ba4655cf8b9f2a9771296225c53914"
+          }
+        },
+        {
+          "client_id": "466060306755-jkkrj0dfono9b84i98ubb5olcas9ld7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP20cT28gHzKhQahuicJ0YH5CY_U0VGsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "466060306755-bljobjr6buah0pmod664btpk1qpse98d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
